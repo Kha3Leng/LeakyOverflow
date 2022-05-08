@@ -13,9 +13,28 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(User $user)
     {
-        return view('profiles.profile', ['user'=>$user]);
+        $user_auth = auth()->user();
+        $profile = $user_auth->profile;
+        $joined_date = '';
+        $born_on = '';
+
+        if ($profile->birthdate) {
+            $born_on .= 'Born ';
+            $born_on .= date_format($profile->birthdate, 'F d, Y');
+        }
+
+        if ($profile->created_at) {
+            $joined_date .= 'Joined ';
+            $joined_date .= date_format($profile->created_at, 'F Y');
+        }
+        return view('profiles.profile', compact('profile', 'user', 'joined_date', 'born_on'));
     }
 
     /**
@@ -31,7 +50,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +61,7 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function show(Profile $profile)
@@ -53,7 +72,7 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function edit(Profile $profile)
@@ -64,8 +83,8 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Profile  $profile
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Profile $profile)
@@ -76,7 +95,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Profile  $profile
+     * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
     public function destroy(Profile $profile)

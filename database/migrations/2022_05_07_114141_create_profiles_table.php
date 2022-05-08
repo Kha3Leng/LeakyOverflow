@@ -16,10 +16,13 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->text('bio');
-            $table->string('location');
-            $table->dateTime('birthdate');
-            $table->string('website');
+            $table->text('bio')->nullable();
+            $table->string('location')->nullable();
+            $table->dateTime('birthdate')->nullable();
+            $table->string('website')->nullable();
+            $table->string('profile_img')->nullable();
+            $table->string('header_img')->nullable();
+            $table->timestamps();
 
             $table->index('user_id');
         });
