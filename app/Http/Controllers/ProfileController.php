@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
+use Nette\Utils\DateTime;
 
 class ProfileController extends Controller
 {
@@ -20,14 +23,16 @@ class ProfileController extends Controller
 
     public function index(User $user)
     {
-        $user_auth = auth()->user();
-        $profile = $user_auth->profile;
+        $use = auth()->user();
+        $profile = $user->profile;
         $joined_date = '';
         $born_on = '';
 
         if ($profile->birthdate) {
             $born_on .= 'Born ';
-            $born_on .= date_format($profile->birthdate, 'F d, Y');
+//            dd($profile->birthdate);
+//            dd();
+            $born_on .= date_format(DateTime::createFromFormat('Y-m-d H:i:s', $profile->birthdate), 'F d, Y');
         }
 
         if ($profile->created_at) {
@@ -75,9 +80,10 @@ class ProfileController extends Controller
      * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profile $profile)
+    public function edit(User $user)
     {
-        //
+        $user = auth()->user();
+        return view('profiles.edit' , compact('user'));
     }
 
     /**
@@ -87,9 +93,44 @@ class ProfileController extends Controller
      * @param \App\Models\Profile $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, User $user)
     {
-        //
+        $this->authorize('update', $user->profile);
+        // this current user is authorized to update profile according to ProfilePolicy.
+
+        $data = $request->validate([
+            'name' => 'required',
+            'birthdate'=>'date',
+            'name'=>'required',
+            'website'=>'url',
+            'bio'=>'string',
+            'location'=>'string'
+        ]);
+        $imageArray = [];
+        if($request['profile_img']){
+            $profile_img_path = request('profile_img')->store('profile', 'public');
+            $profile_img = Image::make(public_path("storage/$profile_img_path"))->fit(1200, 1200);
+            $profile_img->save();
+            $imageArray = ['profile_img' => $profile_img_path];
+        }
+
+        if($request['header_img']){
+            $header_img_path = request('header_img')->store('header', 'public');
+            $header_img = Image::make(public_path("storage/$header_img_path"))->fit(1200, 1200);
+            $header_img->save();
+            $imageArray = array_merge($imageArray, ['header_img' => $header_img_path]);
+        }
+//        dd(array_key_exists('name', $data));
+        if (array_key_exists('name', $data)){
+            auth()->user()->name = $data['name'];
+            auth()->user()->save();
+            unset($data['name']);
+        }
+        auth()->user()->profile()->update(
+            array_merge($data, $imageArray ?? [])
+        );
+
+        return redirect("profile/{$user->id}");
     }
 
     /**
