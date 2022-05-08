@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use Nette\Utils\DateTime;
@@ -23,7 +24,6 @@ class ProfileController extends Controller
 
     public function index(User $user)
     {
-        $use = auth()->user();
         $profile = $user->profile;
         $joined_date = '';
         $born_on = '';
@@ -39,7 +39,27 @@ class ProfileController extends Controller
             $joined_date .= 'Joined ';
             $joined_date .= date_format($profile->created_at, 'F Y');
         }
-        return view('profiles.profile', compact('profile', 'user', 'joined_date', 'born_on'));
+
+        $postCount = Cache::remember('count.posts' . $user->id,
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->posts->count();
+            });
+
+        $followerCount = Cache::remember('count.followers.' . $user->id,
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->profile->followers->count();
+            });
+
+        $followingCount = Cache::remember('count.following.' . $user->id,
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->following->count();
+            });
+
+        $follow = (auth()->user())? auth()->user()->following->contains($user->id) : false;
+        return view('profiles.profile', compact('follow', 'postCount', 'followerCount', 'followingCount', 'profile', 'user', 'joined_date', 'born_on'));
     }
 
     /**
@@ -83,7 +103,7 @@ class ProfileController extends Controller
     public function edit(User $user)
     {
         $user = auth()->user();
-        return view('profiles.edit' , compact('user'));
+        return view('profiles.edit', compact('user'));
     }
 
     /**
@@ -100,28 +120,28 @@ class ProfileController extends Controller
 
         $data = $request->validate([
             'name' => 'required',
-            'birthdate'=>'date',
-            'name'=>'required',
-            'website'=>'url',
-            'bio'=>'string',
-            'location'=>'string'
+            'birthdate' => 'date',
+            'name' => 'required',
+            'website' => 'url',
+            'bio' => 'string',
+            'location' => 'string'
         ]);
         $imageArray = [];
-        if($request['profile_img']){
+        if ($request['profile_img']) {
             $profile_img_path = request('profile_img')->store('profile', 'public');
             $profile_img = Image::make(public_path("storage/$profile_img_path"))->fit(1200, 1200);
             $profile_img->save();
             $imageArray = ['profile_img' => $profile_img_path];
         }
 
-        if($request['header_img']){
+        if ($request['header_img']) {
             $header_img_path = request('header_img')->store('header', 'public');
             $header_img = Image::make(public_path("storage/$header_img_path"))->fit(1200, 1200);
             $header_img->save();
             $imageArray = array_merge($imageArray, ['header_img' => $header_img_path]);
         }
 //        dd(array_key_exists('name', $data));
-        if (array_key_exists('name', $data)){
+        if (array_key_exists('name', $data)) {
             auth()->user()->name = $data['name'];
             auth()->user()->save();
             unset($data['name']);

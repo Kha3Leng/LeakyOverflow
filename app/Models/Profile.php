@@ -24,4 +24,8 @@ class Profile extends Model
         return '/storage/' . (($this->header_img) ? $this->header_img : 'assets/header.jpeg');
     }
 
+    public function followers(){
+        return $this->belongsToMany(User::class);
+    }
+
 }

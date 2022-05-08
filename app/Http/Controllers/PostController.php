@@ -16,7 +16,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $users = auth()->user()->following()->pluck('profiles.user_id');
+        $posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
+//        dd($posts);
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -44,7 +47,7 @@ class PostController extends Controller
 
         $post_img_path = $request['post_img']->store('post', 'public');
         $post_img = Image::make(public_path("storage/$post_img_path"))->fit(1200, 1200);
-        $post_img->save();
+        $post_img->/**/save();
 
         auth()->user()->posts()->create([
             'caption' =>$data['caption'],
@@ -62,7 +65,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show', compact('post'));
     }
 
     /**

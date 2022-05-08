@@ -11,10 +11,28 @@
                         <img src="{{$profile->profileImage()}}" id="profile_img" class="rounded-circle w-25 h-25"
                              style="margin-left:10px; margin-top: -80px; border: 5px solid white;">
                         @can('update', $user->profile)
-                        <a href="/profile/{{$user->id}}/edit"
-                           class="align-content-end text-decoration-none rounded-pill p-2"
-                           style="border: 1px solid grey; padding: 10px;">Edit Profile</a>
+                            <a href="/profile/{{$user->id}}/edit"
+                               class="align-content-end text-decoration-none rounded-pill p-2"
+                               style="border: 1px solid grey; padding: 10px;">Edit Profile</a>
                         @endcan
+                        @cannot('update', $user->profile)
+                            <div class="d-flex align-items-center justify-content-end">
+                                <a href="/profile/{{$user->id}}/edit"
+                                   class="rounded-pill m-2"
+                                   style="border: 1px solid grey; padding: 10px; padding-bottom: 5px;"><i
+                                        class="material-icons">reply</i></a>
+
+                                <a href="/profile/{{$user->id}}/edit"
+                                   class="align-content-end m-2 text-decoration-none rounded-pill"
+                                   style="border: 1px solid grey;  padding: 10px; padding-bottom: 5px;"><i
+                                        class="material-icons">send</i></a>
+
+                                <div class="m-2 align-content-end text-decoration-none rounded-pill p-2"
+                                     style="border: 1px solid grey; padding: 10px;">
+                                    <follow-button user-id="{{$user->id}}" follow="{{$follow}}"></follow-button>
+                                </div>
+                            </div>
+                        @endcannot
                     </div>
                 </div>
             </div>
@@ -29,8 +47,8 @@
                         <span>&#64;{{$user->username}}</span>
                     </div>
                     @can('update', $user->profile)
-                    <a href="/p/create" class="align-content-end text-decoration-none rounded-pill p-2"
-                       style="border: 1px solid grey; padding: 10px;">Tweet</a>
+                        <a href="/p/create" class="align-content-end text-decoration-none rounded-pill p-2"
+                           style="border: 1px solid grey; padding: 10px;">Tweet</a>
                     @endcan
                 </div>
 
@@ -54,8 +72,8 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6  nopadding d-flex justify-content-start align-items-center">
-                <div><strong>21231</strong> Following</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div><strong>21231</strong> Followers</div>
+                <div><strong>{{$followingCount}}</strong> Following</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div><strong>{{$followerCount}}</strong> Followers</div>
             </div>
             <div class="col-3"></div>
         </div>
@@ -67,15 +85,15 @@
             <div class="col-3"></div>
         </div>
         @foreach($user->posts as $post)
-            <div>
-                <div class="row">
+            <a href="/p/{{$post->id}}" class="text-decoration-none">
+                <div class="row nopadding">
                     <div class="col-3"></div>
                     <div class="col-6 nopadding" style="border: 1px solid gainsboro">
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
                                 <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
-                                    class="rounded-circle p-2 m-2"
-                                    style="width: 70px; height: 70px;">
+                                     class="rounded-circle p-2 m-2"
+                                     style="width: 70px; height: 70px;">
                                 <div class="flex-column d-flex">
                                     <div><b>{{$user->name}}</b></div>
                                     <div>&#64;{{$user->username}}</div>
@@ -94,7 +112,7 @@
                     </div>
                     <div class="col-3"></div>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 @endsection
