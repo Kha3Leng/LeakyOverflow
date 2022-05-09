@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div>
+        <div class="row">
             <div class="row nopadding">
                 <div class="col-3"></div>
                 <div class="col-6 nopadding" style="border: 1px solid gainsboro">

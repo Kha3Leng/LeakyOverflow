@@ -85,10 +85,12 @@
             <div class="col-3"></div>
         </div>
         @foreach($user->posts as $post)
-            <a href="/p/{{$post->id}}" class="text-decoration-none">
-                <div class="row nopadding">
-                    <div class="col-3"></div>
-                    <div class="col-6 nopadding" style="border: 1px solid gainsboro">
+
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6 nopadding" style="border: 1px solid gainsboro">
+
+                    <a href="/p/{{$post->id}}" class="text-decoration-none">
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
                                 <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
@@ -109,10 +111,10 @@
                         <div class="card-footer">
                             <hr>
                         </div>
-                    </div>
-                    <div class="col-3"></div>
+                    </a>
                 </div>
-            </a>
-        @endforeach
+                <div class="col-3"></div>
+            </div>
+    @endforeach
     </div>
 @endsection
