@@ -22,7 +22,7 @@
                                    style="border: 1px solid grey; padding: 10px; padding-bottom: 5px;"><i
                                         class="material-icons">reply</i></a>
 
-                                <a href="/profile/{{$user->id}}/edit"
+                                <a href="/m/{{$user->id}}/messages"
                                    class="align-content-end m-2 text-decoration-none rounded-pill"
                                    style="border: 1px solid grey;  padding: 10px; padding-bottom: 5px;"><i
                                         class="material-icons">send</i></a>
