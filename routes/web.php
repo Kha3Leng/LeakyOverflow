@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('r/{post}', 'App\Http\Controllers\ReactionController@store');
 Route::get('/home', [App\Http\Controllers\PostController::class, 'index'])->name('home.show');
 Route::get('/m/{user}/messages', [App\Http\Controllers\MessageController::class, 'index'])->name('m.messages.index');
 Route::post('/follow/{user}', 'App\Http\Controllers\FollowController@store');

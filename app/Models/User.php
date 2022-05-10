@@ -78,4 +78,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Profile::class);
     }
 
+    public function loving(){
+        return $this->belongsToMany(Post::class);
+    }
+
 }

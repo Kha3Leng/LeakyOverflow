@@ -14,11 +14,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __constructor(){
+        $this->middleware('auth');
+    }
     public function index()
     {
+//        $this->authorize('view', Post::class);
         $users = auth()->user()->following()->pluck('profiles.user_id');
         $posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
 //        dd($posts);
+        $love = 'yes';
         return view('posts.index', compact('posts'));
     }
 
@@ -29,6 +34,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Post::class);
+        // this current user is authorized to create posts accorting to PostPolicy
         return view('posts.create');
     }
 
@@ -47,7 +54,7 @@ class PostController extends Controller
 
         $post_img_path = $request['post_img']->store('post', 'public');
         $post_img = Image::make(public_path("storage/$post_img_path"))->fit(1200, 1200);
-        $post_img->/**/save();
+        $post_img->save();
 
         auth()->user()->posts()->create([
             'caption' =>$data['caption'],
@@ -65,6 +72,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+//        $this->authorize('view', Post::class);
         return view('posts.show', compact('post'));
     }
 

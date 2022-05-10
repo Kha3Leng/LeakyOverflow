@@ -24,7 +24,10 @@
                         <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
                     </div>
                     <div class="card-footer">
-                        <hr>
+                        <div class="d-flex justify-content-center align-items-center">
+{{--                            <span class="rounded-pill border p-2">Love</span>--}}
+                            <reaction post-id="{{$post->id}}"></reaction>
+                        </div>
                     </div>
                 </div>
                 <div class="col-3"></div>

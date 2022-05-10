@@ -89,7 +89,6 @@
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-6 nopadding" style="border: 1px solid gainsboro">
-
                     <a href="/p/{{$post->id}}" class="text-decoration-none">
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
@@ -100,7 +99,7 @@
                                     <div><b>{{$user->name}}</b></div>
                                     <div>&#64;{{$user->username}}</div>
                                 </div>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
                                 <span>{{$post->getPostedDate()}}</span>
                             </div>
                         </div>
@@ -108,10 +107,11 @@
                             <p style="padding-left: 20px;">{{$post->caption}}</p>
                             <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
                         </div>
-                        <div class="card-footer">
-                            <hr>
-                        </div>
+
                     </a>
+                        <div class="card-footer">
+                            <reaction post-id="{{$post->id}}"></reaction>
+                        </div>
                 </div>
                 <div class="col-3"></div>
             </div>
