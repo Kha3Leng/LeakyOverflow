@@ -110,7 +110,7 @@
 
                     </a>
                         <div class="card-footer">
-                            <reaction post-id="{{$post->id}}"></reaction>
+                            <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
                         </div>
                 </div>
                 <div class="col-3"></div>

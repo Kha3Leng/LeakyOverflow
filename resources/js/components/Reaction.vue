@@ -1,12 +1,12 @@
 <template>
     <div class="container">
-        <div role="button" @click="reacted">{{this.status}}</div>
+        <div role="button" @click="reacted">{{this.reactionCount}}</div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['postId'],
+    props: ['postId', 'reactionCount'],
     data: function (){
         return {
             status: true,

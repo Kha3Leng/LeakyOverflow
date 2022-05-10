@@ -5426,7 +5426,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['postId'],
+  props: ['postId', 'reactionCount'],
   data: function data() {
     return {
       status: true,
@@ -5438,6 +5438,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     reacted: function reacted() {
+      var _this = this;
+
       // axios.post('/r/'+this.postId)
       //     .then(response => {
       //         console.log(response.data);
@@ -5449,13 +5451,14 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(response.data);
       // this.count += 1;
       axios.post('/r/' + this.postId).then(function (response) {
+        _this.status != _this.status;
         console.log(response.data);
       });
     }
   },
   computed: {
     loveText: function loveText() {
-      return this.status ? 'Yes' : 'No';
+      return this.status ? 'Love' : 'No love';
     }
   }
 });
@@ -28175,7 +28178,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { attrs: { role: "button" }, on: { click: _vm.reacted } }, [
-      _vm._v(_vm._s(this.count)),
+      _vm._v(_vm._s(this.reactionCount)),
     ]),
   ])
 }
