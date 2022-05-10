@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div role="button" @click="reacted">{{this.reactionCount}}</div>
+        <span role="button" @click="reacted" v-text="doThis"></span>
     </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
     data: function (){
         return {
             status: true,
-            count: 1
+            count: this.reactionCount
         };
     },
 
@@ -20,27 +20,17 @@ export default {
 
     methods: {
         reacted() {
-            // axios.post('/r/'+this.postId)
-            //     .then(response => {
-            //         console.log(response.data);
-            //     })
-            //     .catch(errors=>{
-            //
-            //     });
-            // this.status = !this.status;
-            // console.log(response.data);
-            // this.count += 1;
             axios.post('/r/'+this.postId)
                 .then(response=>{
-                    this.status != this.status;
+                    this.count = response.data;
                     console.log(response.data);
                 });
         }
     },
 
     computed:{
-        loveText(){
-            return (this.status)? 'Love':'No love';
+        doThis(){
+            return this.count;
         }
     }
 }

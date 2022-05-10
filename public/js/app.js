@@ -5430,7 +5430,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       status: true,
-      count: 1
+      count: this.reactionCount
     };
   },
   mounted: function mounted() {
@@ -5440,25 +5440,15 @@ __webpack_require__.r(__webpack_exports__);
     reacted: function reacted() {
       var _this = this;
 
-      // axios.post('/r/'+this.postId)
-      //     .then(response => {
-      //         console.log(response.data);
-      //     })
-      //     .catch(errors=>{
-      //
-      //     });
-      // this.status = !this.status;
-      // console.log(response.data);
-      // this.count += 1;
       axios.post('/r/' + this.postId).then(function (response) {
-        _this.status != _this.status;
+        _this.count = response.data;
         console.log(response.data);
       });
     }
   },
   computed: {
-    loveText: function loveText() {
-      return this.status ? 'Love' : 'No love';
+    doThis: function doThis() {
+      return this.count;
     }
   }
 });
@@ -28177,9 +28167,11 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { attrs: { role: "button" }, on: { click: _vm.reacted } }, [
-      _vm._v(_vm._s(this.reactionCount)),
-    ]),
+    _c("span", {
+      attrs: { role: "button" },
+      domProps: { textContent: _vm._s(_vm.doThis) },
+      on: { click: _vm.reacted },
+    }),
   ])
 }
 var staticRenderFns = []

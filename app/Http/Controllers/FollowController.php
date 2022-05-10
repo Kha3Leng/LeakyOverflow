@@ -13,7 +13,7 @@ class FollowController extends Controller
     }
 
     public function store(User $user){
-//        dd(auth()->user()->following()->toggle($user->profile));
-        return auth()->user()->following()->toggle($user->profile);
+        // this toggles user-profile relationship
+        return auth()->user()->following()->toggle($user->profile);;
     }
 }

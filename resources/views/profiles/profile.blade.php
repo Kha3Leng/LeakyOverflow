@@ -110,7 +110,16 @@
 
                     </a>
                         <div class="card-footer">
-                            <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                <div class="d-flex justify-content-between align-items-center p-1">
+                                    <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                    <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                </div>
                         </div>
                 </div>
                 <div class="col-3"></div>

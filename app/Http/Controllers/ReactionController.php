@@ -40,7 +40,8 @@ class ReactionController extends Controller
      */
     public function store(Post $post)
     {
-        return auth()->user()->loving()->toggle($post->id);
+        auth()->user()->loving()->toggle($post->id);
+        return $post->getReactionCount();
     }
 
     /**
