@@ -25,10 +25,21 @@
                                 <p style="padding-left: 20px;">{{$post->caption}}</p>
                                 <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
                             </div>
-                            <div class="card-footer">
-                                <hr>
-                            </div>
                         </a>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center p-1">
+                                    <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-3"></div>

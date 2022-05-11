@@ -20,7 +20,7 @@ class Post extends Model
     }
 
     public function getPostedDate(){
-//        return date_format(DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at), 'F d, Y').;
+        // return date string
         return $this->created_at->format('F d, Y');
     }
 
@@ -28,4 +28,9 @@ class Post extends Model
         $result = DB::select("select count(user_id) as reactionCount from post_user where post_id = ?", [$this->id]);
         return $result[0]->reactionCount;
     }
+
+    public function replied(){
+        return $this->hasMany(Reply::class);
+    }
+
 }

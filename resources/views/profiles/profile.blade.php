@@ -109,21 +109,83 @@
                         </div>
 
                     </a>
-                        <div class="card-footer">
-                                <div class="d-flex justify-content-between align-items-center p-1">
-                                    <span class="d-flex flex-row">
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center p-1">
+                            <div class="d-flex flex-row">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Reply
+                                </button>
+
+                                <!-- Modal -->
+                                <form action="/reply" method="post">
+                                    @csrf
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h6 class="modal-title" id="exampleModalLabel">
+                                                        <div
+                                                            class="d-flex flex-row justify-content-start align-items-center">
+                                                            <img src="{{$user->profile->profileImage()}}"
+                                                                 id="profile_img"
+                                                                 class="rounded-circle"
+                                                                 style="border: 5px solid white; height: 75px; width: 75px;">
+                                                            <div class="d-flex flex-column">
+                                                                <span
+                                                                    style="font-size: 20px;"><strong>{{$user->name}}</strong></span>
+                                                                <span>&#64;{{$user->username}}</span>
+                                                            </div>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                                                            <span>{{$post->getPostedDate()}}</span>
+                                                        </div>
+                                                    </h6>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{auth()->user()->profile->profileImage()}}"
+                                                         id="profile_img"
+                                                         class="rounded-circle pr-1"
+                                                         style="border: 5px solid white; height: 75px; width: 75px;">
+                                                    <span
+                                                        class="text-muted justify-content-end">Replying to &#64;{{$user->username}}</span><br>
+{{--                                                    <textarea name="replies" rows="5" cols="60"></textarea>--}}
+                                                    <div class="row mb-3">
+
+                                                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                                                        <textarea id="reply"  class="form-control
+                                       @error('reply') is-invalid @enderror" name="reply" rows="5" cols="60"></textarea>
+
+                                                        @error('reply')
+                                                        <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    {{--                                                    <button type="button" class="btn btn-primary">Save changes</button>--}}
+                                                    <input type="submit" value="reply" class="btn btn-primary"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <span class="d-flex flex-row">
                                         <i class="material-icons">favorite</i>
-                                        <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
                                     </span>
-                                    <span class="d-flex flex-row">
-                                        <i class="material-icons">favorite</i>
-                                        <reaction post-id="{{$post->id}}" reaction-count="{{$post->getReactionCount()}}"></reaction>
-                                    </span>
-                                </div>
                         </div>
+                    </div>
                 </div>
                 <div class="col-3"></div>
             </div>
-    @endforeach
+        @endforeach
     </div>
 @endsection
