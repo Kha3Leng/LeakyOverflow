@@ -48,7 +48,7 @@ class ReplyController extends Controller
             'post_id'=>$request['post_id'],
             'message'=>$request['reply']
         ]);
-        dd($reply);
+        return redirect('/p/'.$request["post_id"]);
     }
 
     /**

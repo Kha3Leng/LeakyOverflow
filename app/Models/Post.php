@@ -33,4 +33,13 @@ class Post extends Model
         return $this->hasMany(Reply::class);
     }
 
+    public function getReply(){
+        $result = DB::select("select r.message, r.created_at replied_date, r.user_id, u.username from reply r, users u where post_id = ? and r.user_id = u.id order by r.created_at desc", [$this->id]);
+        return $result;
+    }
+
+    public function getReplyCount(){
+        return $this->replied()->count();
+    }
+
 }
