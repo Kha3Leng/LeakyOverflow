@@ -58,7 +58,7 @@ class ProfileController extends Controller
                 return $user->following->count();
             });
 
-        $follow = (auth()->user())? auth()->user()->following->contains($user->id) : false;
+        $follow = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
         return view('profiles.profile', compact('follow', 'postCount', 'followerCount', 'followingCount', 'profile', 'user', 'joined_date', 'born_on'));
     }
 
@@ -91,8 +91,18 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('profiles.follower');
     }
+
+    public function showFollowing(User $user)
+    {
+        $following_users = $user->following;
+        $followers = $user->profile->followers;
+        return view('profiles.follower', [
+            'following_users' => $following_users,
+            'followers' => $followers]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.

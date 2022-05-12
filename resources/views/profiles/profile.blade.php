@@ -71,9 +71,13 @@
         </div>
         <div class="row">
             <div class="col-3"></div>
-            <div class="col-6  nopadding d-flex justify-content-start align-items-center">
-                <div><strong>{{$followingCount}}</strong> Following</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div><strong>{{$followerCount}}</strong> Followers</div>
+            <div class="col-6 nopadding d-flex justify-content-start align-items-center">
+                <a href="/following/{{$user->id}}" class="text-decoration-none link-secondary">
+                    <span><strong>{{$followingCount}}</strong> Following</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </a>
+                <a href="/follower/{{$user->id}}" class="text-decoration-none link-secondary">
+                    <span><strong>{{$followerCount}}</strong> Followers</span>
+                </a>
             </div>
             <div class="col-3"></div>
         </div>
@@ -110,7 +114,11 @@
 
                     </a>
                     <div class="card-footer">
-                        <div class="d-flex justify-content-end align-items-center p-1">
+                        <div class="d-flex justify-content-between align-items-center p-1">
+                            <span class="d-flex flex-row align-items-center">
+                                        <i class="material-icons">reply</i>
+                                        <span>{{$post->replied()->count()}}</span>
+                                    </span>
                             <span class="d-flex flex-row">
                                         <i class="material-icons">favorite</i>
                                         <reaction post-id="{{$post->id}}"
