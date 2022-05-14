@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
 
     public function loving(){
-        return $this->belongsToMany(Post::class);
+        return $this->belongsToMany(Post::class)->orderBy('created_at', 'DESC');
     }
 
     public function replies(){

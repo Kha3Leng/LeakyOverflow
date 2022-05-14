@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6 nopadding">
+                <x-alert/>
                 <div class="flex-column">
                     <img src="{{$profile->headerImage()}}" id="bg_img" class="w-100" style="height: 230px;"/>
                     <div class="d-flex align-items-center justify-content-between">
@@ -71,7 +72,7 @@
         </div>
         <div class="row">
             <div class="col-3"></div>
-            <div class="col-6 nopadding d-flex justify-content-start align-items-center">
+            <div class="col-6 text-left pt-2 pb-2">
                 <a href="/following/{{$user->id}}" class="text-decoration-none link-secondary">
                     <span><strong>{{$followingCount}}</strong> Following</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
@@ -81,6 +82,7 @@
             </div>
             <div class="col-3"></div>
         </div>
+
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6 nopadding">
@@ -88,72 +90,253 @@
             </div>
             <div class="col-3"></div>
         </div>
-        @foreach($user->posts as $post)
+        <div class="row nopadding">
+            <!-- It is not the man who has too little, but the man who craves more, that is poor. - Seneca -->
+            <div class="col-3"></div>
+            <div class="col-6">
+                <ul class="nav nav-tabs nav-fill w-100" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tweet-tab" data-bs-toggle="tab"
+                                data-bs-target="#tweet"
+                                type="button" role="tab" aria-controls="tweet" aria-selected="true">
+                            {{$user->posts()->count()}} Tweets
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="replies-tab" data-bs-toggle="tab" data-bs-target="#replies"
+                                type="button" role="tab" aria-controls="replies" aria-selected="false">Tweets with
+                            replies
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="following-tab" data-bs-toggle="tab" data-bs-target="#following"
+                                type="button" role="tab" aria-controls="following" aria-selected="false">Following
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="likes-tab" data-bs-toggle="tab" data-bs-target="#likes"
+                                type="button" role="tab" aria-controls="likes" aria-selected="false">
+                            {{$user->loving()->count()}} Likes
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content"
+                     id="myTabContent">
+                    <div class="tab-pane fade show active" id="tweet" role="tabpanel" aria-labelledby="tweet-tab">
+                        @foreach($user->posts as $post)
 
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6 nopadding" style="border: 1px solid gainsboro">
-                    <a href="/p/{{$post->id}}" class="text-decoration-none">
-                        <div class="card-title">
-                            <div class="flex-row d-flex align-items-center">
-                                <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
-                                     class="rounded-circle p-2 m-2"
-                                     style="width: 70px; height: 70px;">
-                                <div class="flex-column d-flex">
-                                    <div><b>{{$user->name}}</b></div>
-                                    <div>&#64;{{$user->username}}</div>
+                            <div class="nopadding border border-right border-left border-top-0 border-bottom">
+
+                                <div class="card-title">
+                                    <div class="flex-row d-flex justify-content-between align-items-center">
+
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="flex-row d-flex align-items-center">
+                                                <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
+                                                     class="rounded-circle p-2 m-2"
+                                                     style="width: 70px; height: 70px;">
+                                                <div class="flex-column d-flex">
+                                                    <div><b>{{$user->name}}</b></div>
+                                                    <div>&#64;{{$user->username}}</div>
+                                                </div>
+                                            </div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                                            <span>{{$post->getPostedDate()}}</span></div>
+                                        <div class="p-3">
+                                <span>
+                                        <i class="material-icons">list</i>
+                                    </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
-                                <span>{{$post->getPostedDate()}}</span>
-                            </div>
-                        </div>
-                        <div class="card-img-bottom">
-                            <p style="padding-left: 20px;">{{$post->caption}}</p>
-                            <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
-                        </div>
+                                <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
+                                    <div class="card-img-bottom">
+                                        <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                        <img src="/storage/{{$post->post_img}}" class="w-100"
+                                             style="height: auto;"/>
+                                    </div>
+                                </a>
 
-                    </a>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center p-1">
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center p-1">
                             <span class="d-flex flex-row align-items-center">
                                         <i class="material-icons">reply</i>
                                         <span>{{$post->replied()->count()}}</span>
                                     </span>
-                            <span class="d-flex flex-row">
+                                        <span class="d-flex flex-row">
                                         <i class="material-icons">favorite</i>
                                         <reaction post-id="{{$post->id}}"
                                                   reaction-count="{{$post->getReactionCount()}}"></reaction>
                                     </span>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row m-3">
-                        <form action="/reply" method="post">
-                            @csrf
-                            <img src="{{auth()->user()->profile->profileImage()}}"
-                                 id="profile_img"
-                                 class="rounded-circle pr-1"
-                                 style="border: 5px solid white; height: 50px; width: 50px;">
-                            <span
-                                class="text-muted justify-content-end">Replying to &#64;{{$user->username}}</span><br>
-                            <div class="row">
-                                <div class="col-12 mb-3">
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row m-3">
+                                    <form action="/reply" method="post">
+                                        @csrf
+                                        <img src="{{auth()->user()->profile->profileImage()}}"
+                                             id="profile_img"
+                                             class="rounded-circle pr-1"
+                                             style="border: 5px solid white; height: 50px; width: 50px;">
+                                        <span
+                                            class="text-muted justify-content-end">Replying to &#64;{{$user->username}}</span><br>
+                                        <div class="row">
+                                            <div class="col-12 mb-3">
                                 <textarea id="reply" class="form-control flex-fill
                                        @error('reply') is-invalid @enderror" name="reply" cols="80" rows="2"></textarea>
 
-                                    @error('reply')
-                                    <span class="invalid-feedback" role="alert">
+                                                @error('reply')
+                                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                    @enderror
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <input type="submit" value="reply" class="btn btn-primary"/>
+                                        <input type="hidden" name="post_id" value="{{$post->id}}">
+                                    </form>
                                 </div>
                             </div>
-                            <input type="submit" value="reply" class="btn btn-primary"/>
-                            <input type="hidden" name="post_id" value="{{$post->id}}">
-                        </form>
+                        @endforeach
+                    </div>
+                    <div class="tab-pane fade" id="replies" role="tabpanel" aria-labelledby="replies-tab">
+                        <div class="row nopadding">
+                            <div class="col-6 nopadding">
+                                @foreach($user->replies() as $post)
+                                <div class="m-1 border">
+                                    <div>
+                                        <div class="flex-row d-flex align-items-center">
+                                            <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
+                                                 class="rounded-circle p-2 m-2"
+                                                 style="width: 70px; height: 70px;">
+                                            <div class="flex-column d-flex">
+                                                <div><b><a href="/profile/{{$post->user->id}}"
+                                                           class="text-decoration-none">{{$post->user->name}}</a></b>
+                                                </div>
+                                                <div>&#64;{{$post->user->username}}</div>
+                                            </div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span>{{$post->getPostedDate()}}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                        <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex justify-content-between align-items-center p-1">
+                                    <span class="d-flex flex-row align-items-center">
+                                        <i class="material-icons">reply</i>
+                                        <span>{{$post->replied()->count()}}</span>
+                                    </span>
+                                            <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row m-3">
+                                        <form action="/reply" method="post">
+                                            @csrf
+                                            <img src="{{auth()->user()->profile->profileImage()}}"
+                                                 id="profile_img"
+                                                 class="rounded-circle pr-1"
+                                                 style="border: 5px solid white; height: 50px; width: 50px;">
+                                            <span
+                                                class="text-muted justify-content-end">Replying to &#64;{{$post->user->username}}</span><br>
+                                            <div class="row">
+                                                <div class="col-12 mb-3">
+                                <textarea id="reply" class="form-control flex-fill
+                                       @error('reply') is-invalid @enderror" name="reply" cols="80" rows="2"></textarea>
+
+                                                    @error('reply')
+                                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <input type="submit" value="reply" class="btn btn-primary"/>
+                                            <input type="hidden" name="post_id" value="{{$post->id}}">
+                                        </form>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="col-6">
+                                @foreach($post->getReply() as $reply)
+                                    <div>
+                                        <span class="text-muted">&#64;{{$reply->username}}</span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span>{{$reply->replied_date}}</span>
+                                        <br>
+                                        <span
+                                            class="text-muted justify-content-end">Replying to &#64;{{$post->user->username}}</span><br>
+                                        <span>{{$reply->message}}</span>
+                                        <hr>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="likes" role="tabpanel" aria-labelledby="likes-tab">
+                        @foreach($user->loving as $post)
+
+                            <div class="nopadding border border-right border-left border-top-0 border-bottom">
+
+                                <div class="card-title">
+                                    <div class="flex-row d-flex justify-content-between align-items-center">
+
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <div class="flex-row d-flex align-items-center">
+                                                <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
+                                                     class="rounded-circle p-2 m-2"
+                                                     style="width: 70px; height: 70px;">
+                                                <div class="flex-column d-flex">
+                                                    <div><b>{{$post->user->name}}</b></div>
+                                                    <div>&#64;{{$post->user->username}}</div>
+                                                </div>
+                                            </div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                                            <span>{{$post->getPostedDate()}}</span></div>
+                                        <div class="p-3">
+                                <span>
+                                        <i class="material-icons">list</i>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
+                                    <div class="card-img-bottom">
+                                        <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                        <img src="/storage/{{$post->post_img}}" class="w-100"
+                                             style="height: auto;"/>
+                                    </div>
+                                </a>
+
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center p-1">
+                            <span class="d-flex flex-row align-items-center">
+                                        <i class="material-icons">reply</i>
+                                        <span>{{$post->replied()->count()}}</span>
+                                    </span>
+                                        <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-3"></div>
+
             </div>
-        @endforeach
+        </div>
+
+
     </div>
 @endsection

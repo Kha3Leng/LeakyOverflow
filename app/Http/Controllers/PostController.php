@@ -49,7 +49,7 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'caption' => 'required',
-            'post_img' => ['required', 'image']
+            'post_img' => ['required', 'image', 'max:5000', 'mimes:jpg,jpeg,png']
         ]);
 
         $post_img_path = $request['post_img']->store('post', 'public');

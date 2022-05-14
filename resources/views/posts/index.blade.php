@@ -56,6 +56,7 @@
                     <div class="col-6 nopadding" style="border: 1px solid gainsboro">
 
                         <div class="card-title">
+                            <div class="flex-row d-flex align-items-center">
                             <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
                                 <div class="flex-row d-flex align-items-center">
                                     <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
@@ -65,10 +66,12 @@
                                         <div><b>{{$post->user->name}}</b></div>
                                         <div>&#64;{{$post->user->username}}</div>
                                     </div>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>{{$post->getPostedDate()}}</span>
                                 </div>
                             </a>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>{{$post->getPostedDate()}}</span>
+                            </div>
                         </div>
                         <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
                             <div class="card-img-bottom">
@@ -95,5 +98,13 @@
                 </div>
             </div>
         @endforeach
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 p-5 text-muted text-center">
+                &bull;<br>
+                Come back later for more
+            </div>
+            <div class="col-3"></div>
+        </div>
     </div>
 @endsection
