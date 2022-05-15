@@ -30,8 +30,6 @@ class ProfileController extends Controller
 
         if ($profile->birthdate) {
             $born_on .= 'Born ';
-//            dd($profile->birthdate);
-//            dd();
             $born_on .= date_format(DateTime::createFromFormat('Y-m-d H:i:s', $profile->birthdate), 'F d, Y');
         }
 

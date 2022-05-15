@@ -25,6 +25,7 @@ Route::get('/home', [App\Http\Controllers\PostController::class, 'index'])->name
 Route::get('/m/{user}/messages', [App\Http\Controllers\MessageController::class, 'index'])->name('m.messages.index');
 Route::post('/follow/{user}', 'App\Http\Controllers\FollowController@store');
 Route::get('/p/create', [App\Http\Controllers\PostController::class, 'create'])->name('p.create');
+Route::get('/d/{post}', 'App\Http\Controllers\PostController@destroy')->name('d.delete');
 Route::get('/p/{post}', [App\Http\Controllers\PostController::class, 'show'])->name('p.show');
 Route::post('/p', [App\Http\Controllers\PostController::class, 'store'])->name('p.store');
 Route::get('/following/{user}', [App\Http\Controllers\ProfileController::class, 'showFollowing'])->name('profile.show');

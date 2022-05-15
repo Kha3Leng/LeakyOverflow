@@ -65,7 +65,11 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        //
+        return auth()->user()->id == $user->id
+            && auth()->user()->posts->contains($post->id);
+
+        // must be authenticated users
+        // only authenticatd user's posts are allowed to be deleted.
     }
 
     /**
