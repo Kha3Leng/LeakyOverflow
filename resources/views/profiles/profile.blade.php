@@ -146,7 +146,7 @@
                                             <div class="p-3">
                                 <span>
                                         <a href="/d/{{$post->id}}" class="link-secondary text-decoration-none">
-                                            <i class="material-icons">list</i>
+                                            <i class="material-icons">delete</i>
                                         </a>
                                     </span>
                                             </div>
@@ -203,7 +203,66 @@
                         @endforeach
                     </div>
                     <div class="tab-pane fade" id="replies" role="tabpanel" aria-labelledby="replies-tab">
-
+                        <div class="row">
+                            @foreach($user->postsWithReply() as $post)
+                            <div class="col-6 nopadding">
+                                <div class="m-1 border">
+                                    <div>
+                                        <div class="flex-row d-flex align-items-center">
+                                            <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
+                                                 class="rounded-circle p-2 m-2"
+                                                 style="width: 70px; height: 70px;">
+                                            <div class="flex-column d-flex">
+                                                <div><b><a href="/profile/{{$post->user->id}}"
+                                                           class="text-decoration-none">{{$post->user->name}}</a></b>
+                                                </div>
+                                                <div>&#64;{{$post->user->username}}</div>
+                                            </div>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span>{{$post->getPostedDate()}}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                        <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex justify-content-between align-items-center p-1">
+                                    <span class="d-flex flex-row align-items-center">
+                                        <i class="material-icons">reply</i>
+                                        <span>{{$post->replied()->count()}}</span>
+                                    </span>
+                                            <span class="d-flex flex-row">
+                                        <i class="material-icons">favorite</i>
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @foreach($post->ownReply($user) as $reply)
+{{--                                    {{$reply}}--}}
+{{--                                    <br>--}}
+{{--                                    User id : {{$user->id}}--}}
+{{--                                    <br>--}}
+{{--                                    Auth User id : {{auth()->user()->id}}--}}
+{{--                                    <br>--}}
+                                    <div>
+                                        <span class="text-muted">&#64;{{$user->username}}</span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span>{{$reply->created_at}}</span>
+                                        <br>
+                                        <span
+                                            class="text-muted justify-content-end">Replying to &#64;{{$post->user->username}}</span><br>
+                                        <span>{{$reply->message}}</span>
+                                        <hr>
+                                    </div>
+                                @endforeach
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="likes" role="tabpanel" aria-labelledby="likes-tab">
                         @foreach($user->loving as $post)
@@ -225,12 +284,15 @@
                                             </div>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
                                             <span>{{$post->getPostedDate()}}</span></div>
-                                        <div class="p-3">
+                                        @can('delete', $post)
+                                            <div class="p-3">
                                 <span>
-                                        <i class="material-icons">list</i>
+                                        <i class="material-icons">delete</i>
                                     </span>
-                                        </div>
+                                            </div>
+                                        @endcan
                                     </div>
+
                                 </div>
                                 <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
                                     <div class="card-img-bottom">

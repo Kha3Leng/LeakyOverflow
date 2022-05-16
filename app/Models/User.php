@@ -76,4 +76,10 @@ class User extends Authenticatable
         return $this->hasMany(Reply::class);
     }
 
+    public function postsWithReply(){
+        $post_ids = $this->replies->pluck('post_id');
+        $ids = Post::whereIn('id', $post_ids)->orderBy('created_at', 'DESC')->get();
+        return $ids;
+    }
+
 }

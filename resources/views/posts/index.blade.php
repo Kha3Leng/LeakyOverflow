@@ -94,7 +94,9 @@
                         </div>
                     </div>
 
-                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <x-ads/>
+                    </div>
                 </div>
             </div>
         @endforeach
