@@ -74,10 +74,10 @@
             <div class="col-3"></div>
             <div class="col-6 text-left pt-2 pb-2">
                 <a href="/following/{{$user->id}}" class="text-decoration-none link-secondary">
-                    <span><strong>{{$followingCount}}</strong> Following</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span><strong class="font-weight-bolder">{{$followingCount}}</strong> Following</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <a href="/follower/{{$user->id}}" class="text-decoration-none link-secondary">
-                    <span><strong>{{$followerCount}}</strong> Followers</span>
+                    <span><strong class="font-weight-bolder">{{$followerCount}}</strong> Followers</span>
                 </a>
             </div>
             <div class="col-3"></div>

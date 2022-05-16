@@ -4,70 +4,66 @@
     <div class="container">
         <div class="row">
             <div class="col-3"></div>
-            <div class="col-6 border p-5">
-                <h3>What's happening?</h3>
-                <form action="/p" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="row mb-3">
-                            <label for="caption" class="col-md-6 col-form-label">What's on your mind?</label>
+            <div class="col-6">
+                <div class="border p-5">
+                    <h3>What's happening?</h3>
+                    <form action="/p" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="row mb-3">
+                                <label for="caption" class="col-md-6 col-form-label">What's on your mind?</label>
 
-                            <input id="caption" type="text" class="form-control
+                                <input id="caption" type="text" class="form-control
                                        @error('caption') is-invalid @enderror" name="caption"
-                                   value="{{ old('caption') }}" autocomplete="location"
-                                   autocomplete="caption"
-                                   autofocus>
+                                       value="{{ old('caption') }}" autocomplete="location"
+                                       autocomplete="caption"
+                                       autofocus>
 
-                            @error('caption')
-                            <span class="invalid-feedback" role="alert">
+                                @error('caption')
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="row mb-3">
-                            <label for="post_img" class="col-md-6 col-form-label">Photo</label>
+                        <div class="row">
+                            <div class="row mb-3">
+                                <label for="post_img" class="col-md-6 col-form-label">Photo</label>
 
-                            <input id="post_img" type="file" class="form-control
+                                <input id="post_img" type="file" class="form-control
                                        @error('post_img') is-invalid @enderror" name="post_img"
-                                   value="{{ old('post_img')}}" autocomplete="location"
-                                   autocomplete="post_img"
-                                   autofocus>
+                                       value="{{ old('post_img')}}" autocomplete="location"
+                                       autocomplete="post_img"
+                                       autofocus>
 
-                            @error('post_img')
-                            <span class="invalid-feedback" role="alert">
+                                @error('post_img')
+                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <button class="btn btn-primary">Save Post</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-3"></div>
-        </div>
-        @foreach($posts as $post)
-            <div class="row">
-                <div class="row nopadding">
-                    <div class="col-3"></div>
-                    <div class="col-6 nopadding" style="border: 1px solid gainsboro">
+                        <div class="row mt-3">
+                            <button class="btn btn-primary">Save Post</button>
+                        </div>
+                    </form>
+                </div>
+                @foreach($posts as $post)
+                    <div class="nopadding w-100 border border-left border-right border-bottom border-top-0">
 
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
-                            <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
-                                <div class="flex-row d-flex align-items-center">
-                                    <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
-                                         class="rounded-circle p-2 m-2"
-                                         style="width: 70px; height: 70px;">
-                                    <div class="flex-column d-flex">
-                                        <div><b>{{$post->user->name}}</b></div>
-                                        <div>&#64;{{$post->user->username}}</div>
+                                <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
+                                    <div class="flex-row d-flex align-items-center">
+                                        <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
+                                             class="rounded-circle p-2 m-2"
+                                             style="width: 70px; height: 70px;">
+                                        <div class="flex-column d-flex">
+                                            <div><b>{{$post->user->name}}</b></div>
+                                            <div>&#64;{{$post->user->username}}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
 
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <span>{{$post->getPostedDate()}}</span>
@@ -93,13 +89,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-3">
-                        <x-ads/>
-                    </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+            <div class="col-3 overflow-auto position-fixed" style="right:6%; top: 6%; z-index:10;">
+                <x-ads/>
+                <x-who-to-follow :users="$posts"/>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6 p-5 text-muted text-center">

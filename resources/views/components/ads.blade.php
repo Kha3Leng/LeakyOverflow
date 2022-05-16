@@ -7,6 +7,7 @@
 {{--         data-ad-client="ca-pub-1589742015897303"--}}
 {{--         data-ad-slot="5283553984"--}}
 {{--         data-ad-format="auto"--}}
+{{--         data-adtest="on"--}}
 {{--         data-full-width-responsive="true"></ins>--}}
 {{--    <script>--}}
 {{--        (adsbygoogle = window.adsbygoogle || []).push({});--}}
