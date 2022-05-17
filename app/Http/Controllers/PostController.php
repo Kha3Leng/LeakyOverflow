@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __constructor(){
+    public function __constructor()
+    {
         $this->middleware('auth');
     }
+
     public function index()
     {
 //        $this->authorize('view', Post::class);
         $users = auth()->user()->following()->pluck('profiles.user_id');
         $posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
-//        dd($posts);
-        $love = 'yes';
-        return view('posts.index', compact('posts'));
+        $following = auth()->user()->following->pluck('user_id')->toArray();
+        array_push($following, auth()->user()->id);
+        $users = \App\Models\User::whereNotIn('id', $following)->get();
+        $follow = false;
+        return view('posts.index', compact('posts', 'users', 'follow'));
     }
 
     /**
@@ -57,11 +62,11 @@ class PostController extends Controller
         $post_img->save();
 
         auth()->user()->posts()->create([
-            'caption' =>$data['caption'],
+            'caption' => $data['caption'],
             'post_img' => $post_img_path
         ]);
 
-        return redirect('/profile/'.auth()->user()->id);
+        return redirect('/profile/' . auth()->user()->id);
     }
 
     /**
@@ -109,6 +114,6 @@ class PostController extends Controller
     {
         $this->authorize('delete', $post);
         $post->delete();
-        return redirect('/profile/'.auth()->user()->id);
+        return redirect('/profile/' . auth()->user()->id);
     }
 }

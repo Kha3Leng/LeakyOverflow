@@ -3,7 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-3"></div>
+            <div class="col-3">
+                <x-ads/>
+            </div>
             <div class="col-6">
                 <div class="border p-5">
                     <h3>What's happening?</h3>
@@ -91,9 +93,12 @@
                     </div>
                 @endforeach
             </div>
-            <div class="col-3 overflow-auto position-fixed" style="right:6%; top: 6%; z-index:10;">
-                <x-ads/>
-                <x-who-to-follow :users="$posts"/>
+            <div class="col-3">
+
+                @if(empty($users->isEmpty()))
+                    <x-who-to-follow :users="$users" :follow="$follow"/>
+                @endif
+
             </div>
         </div>
 
