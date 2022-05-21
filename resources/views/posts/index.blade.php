@@ -90,6 +90,31 @@
                                     </span>
                             </div>
                         </div>
+                        <div class="d-flex flex-row m-3">
+                            <form action="/reply" method="post">
+                                @csrf
+                                <img src="{{$post->user->profile->profileImage()}}"
+                                     id="profile_img"
+                                     class="rounded-circle pr-1"
+                                     style="border: 5px solid white; height: 50px; width: 50px;">
+                                <span
+                                    class="text-muted justify-content-end">Replying to &#64;{{$post->user->username}}</span><br>
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                <textarea id="reply" class="form-control flex-fill
+                                       @error('reply') is-invalid @enderror" name="reply" cols="80" rows="2"></textarea>
+
+                                        @error('reply')
+                                        <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <input type="submit" value="reply" class="btn btn-primary"/>
+                                <input type="hidden" name="post_id" value="{{$post->id}}">
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             </div>
