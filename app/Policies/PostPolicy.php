@@ -18,7 +18,7 @@ class PostPolicy
      */
     public function viewAny(User $user)
     {
-//        return auth()->user()->id== $user->id;
+        return auth()->user()->id== $user->id;
     }
 
     /**
@@ -30,7 +30,6 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-//        return auth()->user()->id== $user->id;
     }
 
     /**

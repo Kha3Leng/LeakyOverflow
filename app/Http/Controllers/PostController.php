@@ -22,7 +22,7 @@ class PostController extends Controller
 
     public function index()
     {
-//        $this->authorize('view', Post::class);
+        $this->authorize('viewAny', Post::class);
         $users = auth()->user()->following()->pluck('profiles.user_id');
         $posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
         $following = auth()->user()->following->pluck('user_id')->toArray();
