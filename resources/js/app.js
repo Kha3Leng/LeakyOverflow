@@ -21,6 +21,7 @@ window.Vue = require('vue').default;
 
 Vue.component('follow-button', require('./components/FollowButton.vue').default);
 Vue.component('reaction', require('./components/Reaction.vue').default);
+Vue.component('favorito', require('./components/Favorite.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

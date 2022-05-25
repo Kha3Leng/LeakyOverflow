@@ -84,9 +84,9 @@
                                         <span>{{$post->replied()->count()}}</span>
                                     </span>
                                 <span class="d-flex flex-row">
-                                        <i class="material-icons">favorite</i>
                                         <reaction post-id="{{$post->id}}"
-                                                  reaction-count="{{$post->getReactionCount()}}"></reaction>
+                                                  reaction-count="{{$post->getReactionCount()}}"
+                                                  color="{{$post->loved->contains(auth()->user()->id)}}"></reaction>
                                     </span>
                             </div>
                         </div>

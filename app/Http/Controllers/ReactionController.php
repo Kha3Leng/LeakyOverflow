@@ -41,7 +41,8 @@ class ReactionController extends Controller
     public function store(Post $post)
     {
         auth()->user()->loving()->toggle($post->id);
-        return $post->getReactionCount();
+        $liked = $post->loved->contains(auth()->user()->id);
+        return [$post->getReactionCount(), $liked];
     }
 
     /**
