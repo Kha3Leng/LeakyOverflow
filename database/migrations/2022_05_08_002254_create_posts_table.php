@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('caption');
             $table->string('post_img');
+            $table->boolean('retweet');
+            $table->unsignedBigInteger('tweet_user_id')->nullable();
+            $table->unsignedBigInteger('tweet_id')->nullable();
             $table->timestamps();
 
             $table->index('user_id');

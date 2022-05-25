@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::post('r/{post}', 'App\Http\Controllers\ReactionController@store');
+Route::post('retweet/{post}', 'App\Http\Controllers\PostController@retweet');
 Route::post('/reply', 'App\Http\Controllers\ReplyController@store');
 Route::get('/home', [App\Http\Controllers\PostController::class, 'index'])->name('home.show');
 Route::get('/m/{user}/messages', [App\Http\Controllers\MessageController::class, 'index'])->name('m.messages.index');

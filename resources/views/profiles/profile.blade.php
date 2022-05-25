@@ -64,13 +64,23 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col-6 nopadding d-flex pt-3">
-                <div class="pl-2 float-left  align-items-center "><i
-                        class="material-icons">link</i> {{$user->profile->website}}</div>
-                <div class="pl-2 float-left  align-items-center "><i
-                        class="material-icons">home</i> {{$user->profile->location}}</div>
-                <div class="pl-2 float-left  align-items-center "><i class="material-icons">cake</i> {{$born_on}}</div>
-                <div class="pl-2 float-left  align-items-center "><i class="material-icons">today</i> {{$joined_date}}
-                </div>
+                @if($user->profile->website)
+                    <div class="pl-2 float-left  align-items-center "><i
+                            class="material-icons">link</i> {{$user->profile->website}}</div>
+                @endif
+                @if($user->profile->location)
+                    <div class="pl-2 float-left  align-items-center "><i
+                            class="material-icons">home</i> {{$user->profile->location}}</div>
+                @endif
+                @if($born_on)
+                    <div class="pl-2 float-left  align-items-center "><i class="material-icons">cake</i> {{$born_on}}
+                    </div>
+                @endif
+                @if($joined_date)
+                    <div class="pl-2 float-left  align-items-center "><i
+                            class="material-icons">today</i> {{$joined_date}}
+                    </div>
+                @endif
             </div>
             <div class="col-3"></div>
         </div>
@@ -171,6 +181,11 @@
                             <span class="d-flex flex-row align-items-center">
                                         <i class="material-icons">reply</i>
                                         <span>{{$post->replied()->count()}}</span>
+                                    </span>
+                                        <span class="d-flex flex-row align-items-center">
+                                        <retweet post-id="{{$post->id}}"
+                                                 reaction-count="{{$post->getReactionCount()}}"
+                                                 color="{{$post->loved->contains(auth()->user()->id)}}"></retweet>
                                     </span>
                                         <span class="d-flex flex-row">
                                         <reaction post-id="{{$post->id}}"

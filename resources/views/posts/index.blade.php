@@ -83,6 +83,11 @@
                                         <i class="material-icons">reply</i>
                                         <span>{{$post->replied()->count()}}</span>
                                     </span>
+                                <span class="d-flex flex-row align-items-center">
+                                        <retweet post-id="{{$post->id}}"
+                                                  reaction-count="{{$post->getReactionCount()}}"
+                                                 color="{{$post->loved->contains(auth()->user()->id)}}"></retweet>
+                                    </span>
                                 <span class="d-flex flex-row">
                                         <reaction post-id="{{$post->id}}"
                                                   reaction-count="{{$post->getReactionCount()}}"

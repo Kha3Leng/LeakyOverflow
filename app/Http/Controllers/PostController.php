@@ -54,7 +54,7 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'caption' => 'required',
-            'post_img' => ['required', 'image', 'max:5000', 'mimes:jpg,jpeg,png']
+            'post_img' => ['image', 'max:5000', 'mimes:jpg,jpeg,png'],
         ]);
 
         $post_img_path = $request['post_img']->store('post', 'public');
@@ -63,7 +63,23 @@ class PostController extends Controller
 
         auth()->user()->posts()->create([
             'caption' => $data['caption'],
-            'post_img' => $post_img_path
+            'post_img' => $post_img_path,
+            'retweet'=>false,
+            'tweet_user_id'=>null,
+            'tweet_id'=>null
+        ]);
+
+        return redirect('/profile/' . auth()->user()->id);
+    }
+
+    public function retweet(Post $post)
+    {
+        auth()->user()->posts()->create([
+            'caption' => $post->caption,
+            'post_img' => $post->post_img,
+            'retweet'=>true,
+            'tweet_user_id'=>auth()->user()->id,
+            'tweet_id'=>$post->id
         ]);
 
         return redirect('/profile/' . auth()->user()->id);
