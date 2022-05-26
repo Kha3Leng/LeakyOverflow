@@ -57,9 +57,12 @@ class PostController extends Controller
             'post_img' => ['image', 'max:5000', 'mimes:jpg,jpeg,png'],
         ]);
 
-        $post_img_path = $request['post_img']->store('post', 'public');
-        $post_img = Image::make(public_path("storage/$post_img_path"))->fit(1200, 1200);
-        $post_img->save();
+        $post_img_path = '';
+        if($request['post_img']) {
+            $post_img_path = $request['post_img']->store('post', 'public');
+            $post_img = Image::make(public_path("storage/$post_img_path"))->fit(1200, 1200);
+            $post_img->save();
+        }
 
         auth()->user()->posts()->create([
             'caption' => $data['caption'],
@@ -78,7 +81,7 @@ class PostController extends Controller
             'caption' => $post->caption,
             'post_img' => $post->post_img,
             'retweet'=>true,
-            'tweet_user_id'=>auth()->user()->id,
+            'tweet_user_id'=>$post->user->id,
             'tweet_id'=>$post->id
         ]);
 

@@ -52,9 +52,19 @@
                 </div>
                 @foreach($posts as $post)
                     <div class="nopadding w-100 border border-left border-right border-bottom border-top-0">
-
+                        @if($post->retweet)
+                            <div class="text-muted p-2">
+                                @if($post->user->id == auth()->user()->id)
+                                    You
+                                @else
+                                &#64;{{$post->user->username}}
+                                @endif
+                                retweeted
+                            </div>
+                        @endif
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
+                                @if(!$post->retweet)
                                 <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
                                     <div class="flex-row d-flex align-items-center">
                                         <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
@@ -66,15 +76,30 @@
                                         </div>
                                     </div>
                                 </a>
+                                @else
+                                    <a href="/profile/{{$post->tweet_user_id}}" class="link-secondary text-decoration-none">
+                                        <div class="flex-row d-flex align-items-center">
+                                            <img src="{{\App\Models\User::find($posts[0]->tweet_user_id)->profile->profileImage()}}" id="profile_img"
+                                                 class="rounded-circle p-2 m-2"
+                                                 style="width: 70px; height: 70px;">
+                                            <div class="flex-column d-flex">
+                                                <div><b>{{\App\Models\User::find($posts[0]->tweet_user_id)->name}}</b></div>
+                                                <div>&#64;{{\App\Models\User::find($posts[0]->tweet_user_id)->username}}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endif
 
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <span>{{$post->getPostedDate()}}</span>
                             </div>
                         </div>
                         <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
                             <div class="card-img-bottom">
                                 <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                @if($post->post_img)
                                 <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
+                                @endif
                             </div>
                         </a>
                         <div class="card-footer">

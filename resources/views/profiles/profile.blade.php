@@ -171,8 +171,10 @@
                                 <a href="/p/{{$post->id}}" class="link-secondary text-decoration-none">
                                     <div class="card-img-bottom">
                                         <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                        @if($post->post_img)
                                         <img src="/storage/{{$post->post_img}}" class="w-100"
                                              style="height: auto;"/>
+                                        @endif
                                     </div>
                                 </a>
 
@@ -244,8 +246,10 @@
                                         </div>
                                         <div>
                                             <p style="padding-left: 20px;">{{$post->caption}}</p>
+                                            @if($post->post_img)
                                             <img src="/storage/{{$post->post_img}}" class="w-100"
                                                  style="height: auto;"/>
+                                            @endif
                                         </div>
                                         <div>
                                             <div class="d-flex justify-content-between align-items-center p-1">
@@ -264,12 +268,6 @@
                                 </div>
                                 <div class="col-6">
                                     @foreach($post->ownReply($user) as $reply)
-                                        {{--                                    {{$reply}}--}}
-                                        {{--                                    <br>--}}
-                                        {{--                                    User id : {{$user->id}}--}}
-                                        {{--                                    <br>--}}
-                                        {{--                                    Auth User id : {{auth()->user()->id}}--}}
-                                        {{--                                    <br>--}}
                                         <div>
                                             <span class="text-muted">&#64;{{$user->username}}</span>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

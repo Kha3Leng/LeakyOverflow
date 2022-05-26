@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row nopadding">
             <div class="col-2"></div>
-            <div class="col-4 nopadding">
-                <div class="m-1 border">
-                    <div>
+            <div class="col-4 nopadding card">
+                <div>
+                    <div class="card-title">
                         <div class="flex-row d-flex align-items-center">
                             <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
                                  class="rounded-circle p-2 m-2"
@@ -22,9 +22,11 @@
                     </div>
                     <div>
                         <p style="padding-left: 20px;">{{$post->caption}}</p>
+                        @if($post->post_img)
                         <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
+                        @endif
                     </div>
-                    <div>
+                    <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center p-1">
                                     <span class="d-flex flex-row align-items-center">
                                         <i class="material-icons">reply</i>

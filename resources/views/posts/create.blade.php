@@ -26,7 +26,7 @@
                     </div>
                     <div class="row">
                         <div class="row mb-3">
-                            <label for="post_img" class="col-md-6 col-form-label">post_img</label>
+                            <label for="post_img" class="col-md-6 col-form-label">photo</label>
 
                             <input id="post_img" type="file" class="form-control
                                        @error('post_img') is-invalid @enderror" name="post_img"
