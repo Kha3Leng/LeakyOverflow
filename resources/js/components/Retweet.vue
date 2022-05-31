@@ -1,8 +1,8 @@
 <template>
     <div class="container">
         <div class="d-flex align-items-center">
-            <i class="material-icons" v-if="color" style="color:green;">cached</i>
-            <i class="material-icons" v-else style="color:black;">cached</i>
+            <i class="material-icons" v-if="color" style="color:black;">cached</i>
+            <i class="material-icons" v-else style="color:green;">cached</i>
             <span role="button" @click="reacted" v-text="doThis"></span>
         </div>
     </div>

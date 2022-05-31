@@ -52,6 +52,12 @@ class Post extends Model
         static::deleting(function($post){
             $post->replied()->delete();
             $total_delete = DB::table('post_user')->where('post_id', $post->id)->delete();
+
+
+            // delete post photo if post is deletd
+            if(is_file($post->post_img)){
+                unlink(storage_path($post->post_img));
+            }
         });
     }
 

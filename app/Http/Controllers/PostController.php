@@ -58,7 +58,7 @@ class PostController extends Controller
         ]);
 
         $post_img_path = '';
-        if($request['post_img']) {
+        if ($request['post_img']) {
             $post_img_path = $request['post_img']->store('post', 'public');
             $post_img = Image::make(public_path("storage/$post_img_path"))->fit(1200, 1200);
             $post_img->save();
@@ -67,9 +67,9 @@ class PostController extends Controller
         auth()->user()->posts()->create([
             'caption' => $data['caption'],
             'post_img' => $post_img_path,
-            'retweet'=>false,
-            'tweet_user_id'=>null,
-            'tweet_id'=>null
+            'retweet' => false,
+            'tweet_user_id' => null,
+            'tweet_id' => null
         ]);
 
         return redirect('/profile/' . auth()->user()->id);
@@ -77,13 +77,35 @@ class PostController extends Controller
 
     public function retweet(Post $post)
     {
-        auth()->user()->posts()->create([
-            'caption' => $post->caption,
-            'post_img' => $post->post_img,
-            'retweet'=>true,
-            'tweet_user_id'=>$post->user->id,
-            'tweet_id'=>$post->id
-        ]);
+
+
+        if($post->retweet){
+            $tweet_id = $post->tweet_id;
+            $already_retweet = Post::where('user_id', auth()->user()->id)
+                ->where('tweet_id', $post->tweet_id)
+                ->where('retweet', true)
+                ->count();
+        }else{
+            $tweet_id = $post->id;
+            $already_retweet = Post::where('user_id', auth()->user()->id)
+                ->where('tweet_id', $post->id)
+                ->where('retweet', true)
+                ->count();
+        }
+        if($already_retweet > 0 ){
+            // undo retweet
+            // delete retweeted post
+//            $post->delete();
+
+        }else{
+            auth()->user()->posts()->create([
+                'caption' => $post->caption,
+                'post_img' => $post->post_img,
+                'retweet' => true,
+                'tweet_user_id' => $post->user->id,
+                'tweet_id' => $tweet_id
+            ]);
+        }
 
         return redirect('/profile/' . auth()->user()->id);
     }

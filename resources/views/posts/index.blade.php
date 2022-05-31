@@ -57,7 +57,9 @@
                                 @if($post->user->id == auth()->user()->id)
                                     You
                                 @else
-                                &#64;{{$post->user->username}}
+                                    <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
+                                        &#64;{{$post->user->username}}
+                                    </a>
                                 @endif
                                 retweeted
                             </div>
@@ -65,32 +67,35 @@
                         <div class="card-title">
                             <div class="flex-row d-flex align-items-center">
                                 @if(!$post->retweet)
-                                <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
-                                    <div class="flex-row d-flex align-items-center">
-                                        <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
-                                             class="rounded-circle p-2 m-2"
-                                             style="width: 70px; height: 70px;">
-                                        <div class="flex-column d-flex">
-                                            <div><b>{{$post->user->name}}</b></div>
-                                            <div>&#64;{{$post->user->username}}</div>
-                                        </div>
-                                    </div>
-                                </a>
-                                @else
-                                    <a href="/profile/{{$post->tweet_user_id}}" class="link-secondary text-decoration-none">
+                                    <a href="/profile/{{$post->user->id}}" class="link-secondary text-decoration-none">
                                         <div class="flex-row d-flex align-items-center">
-                                            <img src="{{\App\Models\User::find($posts[0]->tweet_user_id)->profile->profileImage()}}" id="profile_img"
+                                            <img src="{{$post->user->profile->profileImage()}}" id="profile_img"
                                                  class="rounded-circle p-2 m-2"
                                                  style="width: 70px; height: 70px;">
                                             <div class="flex-column d-flex">
-                                                <div><b>{{\App\Models\User::find($posts[0]->tweet_user_id)->name}}</b></div>
-                                                <div>&#64;{{\App\Models\User::find($posts[0]->tweet_user_id)->username}}</div>
+                                                <div><b>{{$post->user->name}}</b></div>
+                                                <div>&#64;{{$post->user->username}}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @else
+                                    <a href="/profile/{{$post->tweet_user_id}}"
+                                       class="link-secondary text-decoration-none">
+                                        <div class="flex-row d-flex align-items-center">
+                                            <img
+                                                src="{{\App\Models\User::find($post->tweet_user_id)->profile->profileImage()}}"
+                                                id="profile_img"
+                                                class="rounded-circle p-2 m-2"
+                                                style="width: 70px; height: 70px;">
+                                            <div class="flex-column d-flex">
+                                                <div><b>{{\App\Models\User::find($post->tweet_user_id)->name}}</b></div>
+                                                <div>
+                                                    &#64;{{\App\Models\User::find($post->tweet_user_id)->username}}</div>
                                             </div>
                                         </div>
                                     </a>
                                 @endif
-
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <span>{{$post->getPostedDate()}}</span>
                             </div>
                         </div>
@@ -98,26 +103,43 @@
                             <div class="card-img-bottom">
                                 <p style="padding-left: 20px;">{{$post->caption}}</p>
                                 @if($post->post_img)
-                                <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
+                                    <img src="/storage/{{$post->post_img}}" class="w-100" style="height: auto;"/>
                                 @endif
                             </div>
                         </a>
                         <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center p-1">
+                                @if($post->retweet)
+                                    <span class="d-flex flex-row align-items-center">
+                                        <i class="material-icons">reply</i>
+                                        <span>{{\App\Models\Post::find($post->tweet_id)->replied()->count()}}</span>
+                                    </span>
+                                    <span class="d-flex flex-row align-items-center">
+                                    <retweet post-id="{{$post->id}}"
+                                             reaction-count="{{\App\Models\Post::where('tweet_id', $post->tweet_id)->count()}}"
+                                             color="{{$post->loved->contains(auth()->user()->id)}}"></retweet>
+                                    </span>
+                                    <span class="d-flex flex-row">
+                                        <reaction post-id="{{$post->id}}"
+                                                  reaction-count="{{\App\Models\Post::find($post->id)->getReactionCount()}}"
+                                                  color="{{\App\Models\Post::find($post->id)->loved->contains(auth()->user()->id)}}"></reaction>
+                                    </span>
+                                @else
                                     <span class="d-flex flex-row align-items-center">
                                         <i class="material-icons">reply</i>
                                         <span>{{$post->replied()->count()}}</span>
                                     </span>
-                                <span class="d-flex flex-row align-items-center">
-                                        <retweet post-id="{{$post->id}}"
-                                                  reaction-count="{{$post->getReactionCount()}}"
-                                                 color="{{$post->loved->contains(auth()->user()->id)}}"></retweet>
+                                    <span class="d-flex flex-row align-items-center">
+                                    <retweet post-id="{{$post->id}}"
+                                             reaction-count="{{\App\Models\Post::where('tweet_id', $post->id)->count()}}"
+                                             color="{{\App\Models\Post::where('tweet_id', $post->id)->get('user_id')->contains(auth()->user()->id)}}"></retweet>
                                     </span>
-                                <span class="d-flex flex-row">
+                                    <span class="d-flex flex-row">
                                         <reaction post-id="{{$post->id}}"
                                                   reaction-count="{{$post->getReactionCount()}}"
                                                   color="{{$post->loved->contains(auth()->user()->id)}}"></reaction>
                                     </span>
+                                @endif
                             </div>
                         </div>
                         <div class="d-flex flex-row m-3">
