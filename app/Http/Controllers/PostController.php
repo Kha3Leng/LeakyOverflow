@@ -77,7 +77,8 @@ class PostController extends Controller
 
     public function retweet(Post $post)
     {
-
+        $retweet_count = 0;
+        $retweeted = false;
 
         if($post->retweet){
             $tweet_id = $post->tweet_id;
@@ -85,12 +86,16 @@ class PostController extends Controller
                 ->where('tweet_id', $post->tweet_id)
                 ->where('retweet', true)
                 ->count();
+            $retweet_count =\App\Models\Post::where('tweet_id', $post->tweet_id)->count();
+            $retweeted = \App\Models\Post::where('tweet_id', $post->tweet_id)->get('user_id')->contains('user_id', auth()->user()->id);
         }else{
             $tweet_id = $post->id;
             $already_retweet = Post::where('user_id', auth()->user()->id)
                 ->where('tweet_id', $post->id)
                 ->where('retweet', true)
                 ->count();
+            $retweet_count = \App\Models\Post::where('tweet_id', $post->id)->count();
+            $retweeted = \App\Models\Post::where('tweet_id', $post->id)->get('user_id')->contains('user_id', auth()->user()->id);
         }
         if($already_retweet > 0 ){
             // undo retweet
@@ -106,8 +111,9 @@ class PostController extends Controller
                 'tweet_id' => $tweet_id
             ]);
         }
+        $retweeted = $retweeted? $retweeted: 0;
 
-        return redirect('/profile/' . auth()->user()->id);
+        return [$retweet_count, $retweeted];
     }
 
     /**

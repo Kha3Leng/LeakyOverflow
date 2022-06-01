@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="d-flex align-items-center">
-            <i class="material-icons" v-if="color" style="color:green;">cached</i>
+            <i class="material-icons" v-if="retweeted" style="color:green;">cached</i>
             <i class="material-icons" v-else style="color:black;">cached</i>
             <span role="button" @click="reacted" v-text="doThis"></span>
         </div>
@@ -10,12 +10,12 @@
 
 <script>
 export default {
-    props: ['postId', 'reactionCount', 'color'],
+    props: ['postId', 'tweetCount', 'retweeted'],
     data: function (){
         return {
             status: true,
-            count: this.reactionCount,
-            color: this.color
+            count: this.tweetCount,
+            yes: this.retweeted
         };
     },
 
@@ -28,7 +28,7 @@ export default {
             axios.post('/retweet/'+this.postId)
                 .then(response=>{
                     this.count = response.data[0];
-                    this.color = response.data[1];
+                    this.yes = response.data[1];
                     console.log(response.data);
                 });
         }

@@ -116,8 +116,8 @@
                                     </span>
                                     <span class="d-flex flex-row align-items-center">
                                     <retweet post-id="{{$post->id}}"
-                                             reaction-count="{{\App\Models\Post::where('tweet_id', $post->tweet_id)->count()}}"
-                                             color="{{\App\Models\Post::where('tweet_id', $post->tweet_id)->get('user_id')->contains('user_id', auth()->user()->id)}}"></retweet>
+                                             tweet-count="{{\App\Models\Post::where('tweet_id', $post->tweet_id)->count()}}"
+                                             retweeted="{{\App\Models\Post::where('tweet_id', $post->tweet_id)->get('user_id')->contains('user_id', auth()->user()->id)}}"></retweet>
                                     </span>
                                     <span class="d-flex flex-row">
                                         <reaction post-id="{{$post->id}}"
@@ -131,8 +131,8 @@
                                     </span>
                                     <span class="d-flex flex-row align-items-center">
                                     <retweet post-id="{{$post->id}}"
-                                             reaction-count="{{\App\Models\Post::where('tweet_id', $post->id)->count()}}"
-                                             color="{{\App\Models\Post::where('tweet_id', $post->id)->get('user_id')->contains('user_id', auth()->user()->id)}}"></retweet>
+                                             tweet-count="{{\App\Models\Post::where('tweet_id', $post->id)->count()}}"
+                                             retweeted="{{\App\Models\Post::where('tweet_id', $post->id)->get('user_id')->contains('user_id', auth()->user()->id)}}"></retweet>
                                     </span>
                                     <span class="d-flex flex-row">
                                         <reaction post-id="{{$post->id}}"

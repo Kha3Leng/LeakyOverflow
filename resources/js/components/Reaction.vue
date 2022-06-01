@@ -15,7 +15,7 @@ export default {
         return {
             status: true,
             count: this.reactionCount,
-            color: this.color
+            liked: this.color
         };
     },
 
@@ -28,7 +28,7 @@ export default {
             axios.post('/r/'+this.postId)
                 .then(response=>{
                     this.count = response.data[0];
-                    this.color = response.data[1];
+                    this.liked = response.data[1];
                     console.log(response.data);
                 });
         }

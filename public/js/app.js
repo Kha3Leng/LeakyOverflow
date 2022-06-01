@@ -5435,7 +5435,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       status: true,
       count: this.reactionCount,
-      color: this.color
+      liked: this.color
     };
   },
   mounted: function mounted() {
@@ -5447,7 +5447,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/r/' + this.postId).then(function (response) {
         _this.count = response.data[0];
-        _this.color = response.data[1];
+        _this.liked = response.data[1];
         console.log(response.data);
       });
     }
@@ -5483,12 +5483,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['postId', 'reactionCount', 'color'],
+  props: ['postId', 'tweetCount', 'retweeted'],
   data: function data() {
     return {
       status: true,
-      count: this.reactionCount,
-      color: this.color
+      count: this.tweetCount,
+      yes: this.retweeted
     };
   },
   mounted: function mounted() {
@@ -5500,7 +5500,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/retweet/' + this.postId).then(function (response) {
         _this.count = response.data[0];
-        _this.color = response.data[1];
+        _this.yes = response.data[1];
         console.log(response.data);
       });
     }
@@ -28345,7 +28345,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "d-flex align-items-center" }, [
-      _vm.color
+      _vm.retweeted
         ? _c(
             "i",
             { staticClass: "material-icons", staticStyle: { color: "green" } },
