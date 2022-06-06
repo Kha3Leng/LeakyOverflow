@@ -28300,7 +28300,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "d-flex align-items-center" }, [
-      _vm.color
+      _vm.liked
         ? _c(
             "i",
             { staticClass: "material-icons", staticStyle: { color: "red" } },
@@ -28345,7 +28345,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "d-flex align-items-center" }, [
-      _vm.retweeted
+      _vm.yes
         ? _c(
             "i",
             { staticClass: "material-icons", staticStyle: { color: "green" } },

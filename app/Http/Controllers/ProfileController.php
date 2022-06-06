@@ -56,8 +56,11 @@ class ProfileController extends Controller
                 return $user->following->count();
             });
 
+//        $users = \App\Models\Post::whereIn('id', auth()->user()->tweets()->pluck('id'))
+//            ->where('retweet', '=', true)->get();
+
         $follow = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
-        return view('profiles.profile', compact('follow', 'postCount', 'followerCount', 'followingCount', 'profile', 'user', 'joined_date', 'born_on'));
+        return view('profiles.profile', compact( 'follow', 'postCount', 'followerCount', 'followingCount', 'profile', 'user', 'joined_date', 'born_on'));
     }
 
     /**

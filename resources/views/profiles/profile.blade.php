@@ -38,7 +38,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3"></div>
+            <div class="col-3">
+{{--                <x-you-might-like :users="$users"/>--}}
+            </div>
         </div>
         <div class="row">
             <div class="col-3"></div>
@@ -230,11 +232,14 @@
                                                 <i class="material-icons">reply</i>
                                                 <span>{{$post->replied()->count()}}</span>
                                             </span>
-                                            <span class="d-flex flex-row align-items-center">
+                                            {{--                                        Show retweet button only if the original tweet is not deleted--}}
+                                            @if(!($post->retweet == false && $post->tweet_id == null && $post->tweet_user_id != null))
+                                                <span class="d-flex flex-row align-items-center">
                                                     <retweet post-id="{{$post->id}}"
                                                              tweet-count="{{\App\Models\Post::where('tweet_id', $post->id)->count()}}"
                                                              retweeted="{{\App\Models\Post::where('tweet_id', $post->id)->get('user_id')->contains('user_id', auth()->user()->id)}}"></retweet>
                                             </span>
+                                            @endif
                                             <span class="d-flex flex-row">
                                                     <reaction post-id="{{$post->id}}"
                                                               reaction-count="{{$post->getReactionCount()}}"

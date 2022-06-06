@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">Who to follow</h1>
+        <h4 class="card-title">Who to follow</h4>
         @foreach($users as $user)
             <div class="d-flex flex-row align-items-center justify-content-between">
 
